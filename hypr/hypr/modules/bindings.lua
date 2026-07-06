@@ -9,6 +9,7 @@ local fileManager = "thunar"
 local menu        = "./.config/rofi/type-6/launcher.sh"
 local notification = "swaync-client -t"
 local scripts = "/home/yassine/.config/waybar/scripts"
+local nightMode = "./.config/hypr/night-mode.sh"
 
 
 ---------------------
@@ -24,6 +25,7 @@ hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + F", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + D", hl.dsp.exec_cmd(menu))
+hl.bind(mainMod .. " + Y", hl.dsp.exec_cmd(nightMode))
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd(notification))
 hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(scripts.. "/launch.sh"))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
