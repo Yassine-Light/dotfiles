@@ -18,6 +18,7 @@ local nightMode = "./.config/hypr/night-mode.sh"
 
 local mainMod = "SUPER"
 local secondMod = "ALT"
+local thirdMod = "SHIFT"
 
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
@@ -45,6 +46,9 @@ hl.bind(mainMod .. " + L", hl.dsp.exec_cmd(terminal .. " -e " .. scripts .. "/po
 -- Toggle off Bluetooth/Wi-Fi
 hl.bind(mainMod .. " + " .. secondMod .. " + B", hl.dsp.exec_cmd(scripts .. "/bluetooth off"))
 hl.bind(mainMod .. " + " .. secondMod .. " + W", hl.dsp.exec_cmd(scripts .. "/network off"))
+
+-- Clipboard
+hl.bind(mainMod .. " + " .. thirdMod .. " + V", hl.dsp.exec_cmd("cliphist list | rofi -dmenu -display-columns 2 -p \"Search Clipboard\" -theme ~/.config/rofi/type-6/style-1.rasi | cliphist decode | wl-copy"))
 
 -- Switch workspaces with mainMod + [0-9]
 -- Move active window to a workspace with mainMod + SHIFT + [0-9]
