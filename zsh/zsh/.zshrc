@@ -84,4 +84,12 @@ source "$ZDOTDIR/plugins.zsh"
 # Propmt
 source "$ZDOTDIR/prompt.zsh"
 
+# ===============================
+#  Valrind
+# ===============================
+export DEBUGINFOD_URLS="https://debuginfod.archlinux.org"
 
+# ===============================
+#  Composer
+# ===============================
+export PATH="$HOME/.config/composer/vendor/bin:$PATH"

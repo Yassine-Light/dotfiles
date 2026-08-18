@@ -60,3 +60,19 @@ alias yr='yay -Rns'
 alias yclean='yay -Yc'
 alias ycheck='yay -Qu'
 
+
+# ============================
+#  CC 
+# ============================
+
+alias cc3='gcc -Wall -Wextra -Werror'
+alias vg='valgrind'
+
+
+
+# ============================
+#  Laravel 
+# ============================
+
+alias as='php artisan serve'
+
