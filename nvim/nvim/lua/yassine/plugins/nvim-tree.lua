@@ -73,6 +73,9 @@ return {
 					enable = true,
 				},
 				icons = {
+					show = {
+						git = false, -- Disables git status icons (like ✕)
+					},
 					glyphs = {
 						folder = {
 							arrow_closed = "",
@@ -92,6 +95,7 @@ return {
 				custom = { ".DS_Store" },
 			},
 			git = {
+				enable = false, -- Disables git integration in the tree completely
 				ignore = false,
 			},
 		})
