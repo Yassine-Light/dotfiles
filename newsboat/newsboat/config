@@ -1,0 +1,47 @@
+# --- General Settings ---
+auto-reload yes
+reload-time 60
+show-read-feeds yes
+show-read-articles yes
+feed-sort-order unread-first
+article-sort-order date-asc
+browser "xdg-open %u"
+cleanup-on-quit yes
+
+# --- Vim Navigation ---
+bind-key j down
+bind-key k up
+bind-key h quit
+bind-key l open
+
+# --- Ultra-Concise List Layout ---
+articlelist-format "%4i %D %-10T | %t"
+feedlist-format    "%4i %n %12u | %t"
+datetime-format    "%b %d"
+
+# --- Gruvbox Material Base & Email Styling ---
+color background          default default
+color listnormal          color243 default      # Read items (Dimmed Gruvbox Gray)
+color listnormal_unread   color223 default bold # Unread items (Bright Warm White)
+color listfocus           color235 color208 bold # Focused Read item (Dark on Orange)
+color listfocus_unread    color235 color208 bold # Focused Unread item
+color info                color142 default bold  # Status bar (Gruvbox Green)
+color article             color223 default
+
+# --- Severity & Ecosystem Highlighting ---
+
+# CRITICAL / CVSS 9.0-10.0 / RCE / Unauthenticated (Gruvbox Soft Red)
+highlight articlelist "ignore-case:.*(10\.0|9\.[0-9]|critical|rce|unauthenticated).*" color167 default bold
+highlight article     "ignore-case:.*(10\.0|9\.[0-9]|critical|rce|unauthenticated).*" color167 default bold
+
+# HIGH / CVSS 7.0-8.9 / PrivEsc / SQLi (Gruvbox Orange)
+highlight articlelist "ignore-case:.*(8\.[0-9]|7\.[0-9]|high|privilege escalation|sqli).*" color208 default bold
+highlight article     "ignore-case:.*(8\.[0-9]|7\.[0-9]|high|privilege escalation|sqli).*" color208 default bold
+
+# MEDIUM / CVSS 4.0-6.9 / XSS / SSRF / Traversal (Gruvbox Yellow)
+highlight articlelist "ignore-case:.*(6\.[0-9]|5\.[0-9]|4\.[0-9]|medium|xss|ssrf|traversal).*" color214 default
+highlight article     "ignore-case:.*(6\.[0-9]|5\.[0-9]|4\.[0-9]|medium|xss|ssrf|traversal).*" color214 default
+
+# LARAVEL / PHP Ecosystem (Gruvbox Aqua/Green)
+highlight articlelist "ignore-case:.*(laravel|php).*" color108 default bold
+highlight article     "ignore-case:.*(laravel|php).*" color108 default bold

@@ -1,0 +1,16 @@
+# --- Web & PHP / Laravel ---
+https://github.com/laravel/framework/releases.atom laravel release
+https://php.watch/feed.xml php web
+
+# --- Security Advisories & Exploit Disclosures ---
+https://packetstormsecurity.com/feeds/news/ security exploits
+https://www.exploit-db.com/rss.xml security web exploits
+https://portswigger.net/research/rss web security
+
+# --- Core Linux & Distros ---
+https://archlinux.org/news/feed/ linux release
+https://ubuntu.com/security/notices/rss.xml linux security
+
+# --- Virtual Severity Query Folders ---
+"query:CRITICAL & RCE:title =~ \"critical\" or title =~ \"Critical\" or title =~ \"RCE\" or title =~ \"SQLi\""
+"query:LARAVEL / PHP:title =~ \"laravel\" or title =~ \"Laravel\" or title =~ \"PHP\" or title =~ \"php\""
