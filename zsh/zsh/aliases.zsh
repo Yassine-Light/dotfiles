@@ -76,3 +76,7 @@ alias vg='valgrind'
 
 alias as='php artisan serve'
 
+# ============================
+#  Weather 
+# ============================
+alias weather='curl wttr.in'
