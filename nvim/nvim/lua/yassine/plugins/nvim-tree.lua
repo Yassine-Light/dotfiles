@@ -8,16 +8,28 @@ return {
 		vim.g.loaded_netrw = 1
 		vim.g.loaded_netrwPlugin = 1
 
-		-- Custom creation function that prompts only once
+		-- Unified file/folder creation logic
 		local function create_relative()
-			local node = api.tree.get_node_under_cursor()
 			local target_dir
-			if node and node.type == "directory" then
-				target_dir = node.absolute_path
-			elseif node and node.parent then
-				target_dir = node.parent.absolute_path
+
+			-- If inside nvim-tree, determine directory from node under cursor
+			if vim.bo.filetype == "NvimTree" then
+				local node = api.tree.get_node_under_cursor()
+				if node and node.type == "directory" then
+					target_dir = node.absolute_path
+				elseif node and node.parent then
+					target_dir = node.parent.absolute_path
+				else
+					target_dir = vim.fn.getcwd()
+				end
 			else
-				target_dir = vim.fn.getcwd()
+				-- Otherwise use current buffer's directory or cwd
+				local current_file = vim.api.nvim_buf_get_name(0)
+				if current_file ~= "" then
+					target_dir = vim.fs.dirname(current_file)
+				else
+					target_dir = vim.fn.getcwd()
+				end
 			end
 
 			local rel_path = vim.fn.fnamemodify(target_dir, ":.") .. "/"
@@ -32,7 +44,7 @@ return {
 
 				local full_path = vim.fn.fnamemodify(input, ":p")
 
-				-- If path ends with "/", create a directory; otherwise create a file
+				-- Directory if ends with "/", else file
 				if input:sub(-1) == "/" then
 					vim.fn.mkdir(full_path, "p")
 				else
@@ -51,6 +63,17 @@ return {
 			end)
 		end
 
+		-- Global Keymaps
+		local keymap = vim.keymap
+		keymap.set("n", "<leader>ee", "<cmd>NvimTreeFocus<CR>", { desc = "Focus file explorer" })
+		keymap.set("n", "<leader>E", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
+		keymap.set("n", "<leader>ef", "<cmd>NvimTreeFindFile<CR>", { desc = "Focus file explorer on active file" })
+		keymap.set("n", "<leader>ec", "<cmd>NvimTreeCollapse<CR>", { desc = "Collapse file explorer" })
+		keymap.set("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh file explorer" })
+
+		-- Global shortcut to prompt file creation anywhere
+		keymap.set("n", "<leader>fn", create_relative, { desc = "Create file/folder (relative)" })
+
 		local function my_on_attach(bufnr)
 			local opts = function(desc)
 				return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
@@ -58,7 +81,7 @@ return {
 
 			api.config.mappings.default_on_attach(bufnr)
 
-			-- Override 'a' to use single relative prompt
+			-- Override 'a' inside tree
 			vim.keymap.set("n", "a", create_relative, opts("Create (Relative Path)"))
 		end
 
@@ -74,7 +97,7 @@ return {
 				},
 				icons = {
 					show = {
-						git = false, -- Disables git status icons (like ✕)
+						git = false,
 					},
 					glyphs = {
 						folder = {
@@ -95,7 +118,7 @@ return {
 				custom = { ".DS_Store" },
 			},
 			git = {
-				enable = false, -- Disables git integration in the tree completely
+				enable = false,
 				ignore = false,
 			},
 		})

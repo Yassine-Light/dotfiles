@@ -13,13 +13,6 @@ keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" }) 
 keymap.set("n", "<leader>se", "<C-w>=", { desc = "Make splits equal size" }) -- make split windows equal width & height
 keymap.set("n", "<leader>sx", "<cmd>close<CR>", { desc = "Close current split" }) -- close current split window
 
--- Explorer
-
-keymap.set("n", "<leader>ee", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" }) -- toggle file explorer
-keymap.set("n", "<leader>ef", "<cmd>NvimTreeFindFileToggle<CR>", { desc = "Toggle file explorer on current file" }) -- toggle file explorer on current file
-keymap.set("n", "<leader>ec", "<cmd>NvimTreeCollapse<CR>", { desc = "Collapse file explorer" }) -- collapse file explorer
-keymap.set("n", "<leader>er", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh file explorer" }) -- refresh file explorer
-
 -- Telescope
 
 keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Fuzzy find files in cwd" })
@@ -33,3 +26,34 @@ keymap.set("n", "<leader>fk", "<cmd>Telescope keymaps<cr>", { desc = "Find todos
 
 keymap.set("n", "<leader>wr", "<cmd>AutoSession restore<CR>", { desc = "Restore session for cwd" }) -- restore last workspace session for current directory
 keymap.set("n", "<leader>ws", "<cmd>AutoSession save<CR>", { desc = "Save session for auto session root dir" }) -- save workspace session for current working directory
+
+-- Helper function to execute shell commands in a given directory
+local function run_cmd_in_dir(dir, prompt_title)
+	local rel_dir = vim.fn.fnamemodify(dir, ":.")
+	if rel_dir == "" then
+		rel_dir = "."
+	end
+
+	vim.ui.input({
+		prompt = prompt_title .. " (" .. rel_dir .. "): ",
+	}, function(input)
+		if not input or #input == 0 then
+			return
+		end
+
+		-- Run asynchronously in a Neovim terminal split
+		vim.cmd("split | terminal cd " .. vim.fn.shellescape(dir) .. " && " .. input)
+	end)
+end
+
+-- 1. Run command at project root (cwd)
+vim.keymap.set("n", "<leader>cx", function()
+	run_cmd_in_dir(vim.fn.getcwd(), "Run Root Cmd")
+end, { desc = "Run shell command at project root" })
+
+-- 2. Run command in current file's directory
+vim.keymap.set("n", "<leader>cd", function()
+	local current_file = vim.api.nvim_buf_get_name(0)
+	local target_dir = current_file ~= "" and vim.fs.dirname(current_file) or vim.fn.getcwd()
+	run_cmd_in_dir(target_dir, "Run Dir Cmd")
+end, { desc = "Run shell command in current file's directory" })
