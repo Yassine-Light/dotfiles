@@ -5,6 +5,16 @@ return {
 		local conform = require("conform")
 
 		conform.setup({
+			-- 1. Tell conform how to run c_formatter_42
+			formatters = {
+				c_formatter_42 = {
+					command = "c_formatter_42",
+					args = { "$FILENAME" },
+					stdin = false,
+				},
+			},
+
+			-- 2. Map it to C files
 			formatters_by_ft = {
 				-- Frontend & JS/TS
 				javascript = { "prettier" },
@@ -23,7 +33,7 @@ return {
 				blade = { "pint" },
 
 				-- Systems & Compiled
-				c = { "clang-format" },
+				c = { "c_formatter_42" },
 				cpp = { "clang-format" },
 				rust = { "rustfmt" },
 
@@ -37,7 +47,7 @@ return {
 				zsh = { "shfmt" },
 			},
 			format_on_save = {
-				lsp_fallback = true,
+				lsp_fallback = false, -- Set to false so clangd doesn't override it
 				async = false,
 				timeout_ms = 3000,
 			},
@@ -45,7 +55,7 @@ return {
 
 		vim.keymap.set({ "n", "v" }, "<leader>mp", function()
 			conform.format({
-				lsp_fallback = true,
+				lsp_fallback = false,
 				async = false,
 				timeout_ms = 1000,
 			})

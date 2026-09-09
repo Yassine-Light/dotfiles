@@ -18,7 +18,6 @@ return {
 			php = { "phpstan" },
 
 			-- Systems & Shell
-			c = { "cpplint" },
 			bash = { "shellcheck" },
 			sh = { "shellcheck" },
 			zsh = { "shellcheck" },

@@ -76,6 +76,8 @@ return {
 				"eslint_d", -- JS / TS
 				"php-cs-fixer", -- PHP linting
 				"shellcheck", -- Shell script linting
+				"cpplint",
+				"yamllint",
 			},
 		},
 		dependencies = {
